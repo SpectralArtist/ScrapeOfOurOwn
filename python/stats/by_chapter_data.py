@@ -1,3 +1,4 @@
+import csv
 import json
 import os
 from collections import Counter
@@ -56,7 +57,12 @@ def write_by_chapter_data(query_folder, section, counter):
         os.mkdir(section_folder)
 
     for group, chapter_set in counter.items():
-        with open(os.path.join(section_folder, group.replace("/", "") + ".txt"), 'w') as outfile:
+        group_txt_file_path = os.path.join(section_folder, group.replace("/", "") + ".txt")
+        group_csv_file_path = os.path.join(section_folder, group.replace("/", "") + ".csv")
+        with open(group_txt_file_path, 'w') as outfile, open(group_csv_file_path, 'w') as csv_outfile:
+
+            csv_writer = csv.writer(csv_outfile, delimiter=',')
+            csv_writer.writerow(["Number of Chapters", "Total Stories", "Total Views", "Average Views per Story"])
 
             for chapter, counts in sorted(chapter_set.items(), key=lambda x: int(x[0]), reverse=False):
                 stories = counts[sref.STORY_COUNT_SECTION]
@@ -67,3 +73,5 @@ def write_by_chapter_data(query_folder, section, counter):
                               + " Total Views: " + str(views)
                               + " Average Views per Story: " + str(views / stories)
                               + "\n")
+
+                csv_writer.writerow([chapter, str(stories), str(views), str(views / stories)])

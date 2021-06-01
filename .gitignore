@@ -3,3 +3,4 @@ ao3-env/
 TempDataHolder/
 DataFolders/
 .vscode/
+.DS_Store
