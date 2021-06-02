@@ -12,8 +12,7 @@ def query_name_setup(base_folder):
 
         query_folder = os.path.join(data_folder, query_name)
 
-        if not os.path.exists(data_folder):
-            os.mkdir(data_folder)
+        create_folder(data_folder)
 
         if os.path.exists(query_folder):
             print("That Name is Already Being Used for a Folder!")
@@ -22,4 +21,6 @@ def query_name_setup(base_folder):
 
     return query_folder
 
-    
+def create_folder(folder_path):
+    if not os.path.exists(folder_path):
+            os.mkdir(folder_path)

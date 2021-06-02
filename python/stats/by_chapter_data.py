@@ -1,6 +1,7 @@
 import csv
 import json
 import os
+from webscraper import folder_setup
 from collections import Counter
 from references import strings as sref
 
@@ -47,18 +48,15 @@ def count_group(section, json_array):
 
 def write_by_chapter_data(query_folder, section, counter):
     by_chapter_folder = os.path.join(query_folder, sref.BY_CHAPTER_FOLDER_NAME)
-
-    if not os.path.exists(by_chapter_folder):
-        os.mkdir(by_chapter_folder)
+    folder_setup.create_folder(by_chapter_folder)
 
     section_folder = os.path.join(by_chapter_folder, section)
-
-    if not os.path.exists(section_folder):
-        os.mkdir(section_folder)
+    folder_setup.create_folder(section_folder)
 
     for group, chapter_set in counter.items():
         group_txt_file_path = os.path.join(section_folder, group.replace("/", "") + ".txt")
         group_csv_file_path = os.path.join(section_folder, group.replace("/", "") + ".csv")
+        
         with open(group_txt_file_path, 'w') as outfile, open(group_csv_file_path, 'w') as csv_outfile:
 
             csv_writer = csv.writer(csv_outfile, delimiter=',')
