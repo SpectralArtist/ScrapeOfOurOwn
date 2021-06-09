@@ -1,10 +1,5 @@
 DATA_FOLDER_NAME = "DataFolders"
-PAGE_NUMBER_INDICATOR = "page="
 
-WEBSCRAPED_DATA_FILE_NAME = "WebScrapeData.json"
-
-GENERAL_STATS_FOLDER_NAME = "General Info"
-GENERAL_STATS_FILE_NAME = "General Info.txt"
 TAGS_COUNT_FILE_NAME = "Tags Count Info.txt"
 
 BY_CHAPTER_FOLDER_NAME = "By Chapter Info"
