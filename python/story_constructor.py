@@ -1,4 +1,4 @@
-from references import strings as sref
+import strings as sref
 
 def story_to_dict(story):
     return {

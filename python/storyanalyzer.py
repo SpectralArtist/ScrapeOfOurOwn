@@ -1,10 +1,9 @@
 import json
 import os
 import csv
-from webscraper import webscraper
+import webscraper
 from collections import Counter
-from references import strings as sref
-from webscraper import webscraper
+import strings as sref
 
 class StoryAnalyzer(webscraper.Webscraper):
 

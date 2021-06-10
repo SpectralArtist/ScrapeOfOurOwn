@@ -1,4 +1,4 @@
-from references import strings as sref
+import strings as sref
 import os.path
 
 def query_name_setup(base_folder):
@@ -24,3 +24,7 @@ def query_name_setup(base_folder):
 def create_folder(folder_path):
     if not os.path.exists(folder_path):
             os.mkdir(folder_path)
+
+def create_sub_folder(folder_path, name):
+    if not os.path.exists(folder_path):
+            os.mkdir(os.path.join(folder_path, name))

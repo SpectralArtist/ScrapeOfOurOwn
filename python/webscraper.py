@@ -6,7 +6,7 @@ import os
 import requests
 import time
 
-from .story_constructor import story_to_dict
+from story_constructor import story_to_dict
 
 class Webscraper:
     
