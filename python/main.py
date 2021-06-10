@@ -1,7 +1,6 @@
 import os
-
-from .webscraper import folder_setup
-from .webscraper import webscraper
+import folder_setup
+from storyanalyzer import storyanalyzer
 
 
 # from webscraper import webscraper
@@ -16,8 +15,9 @@ print(query_folder)
 
 link = input("Please enter the link to be mined: ")
 
-all_stories = webscraper.Webscraper("All Stories", query_folder)
+all_stories = storyanalyzer.StoryAnalyzer("All Stories", query_folder)
 all_stories.scrape(link)
+all_stories.run_all()
 
 # general_data.start_general_statistics(query_folder)
 

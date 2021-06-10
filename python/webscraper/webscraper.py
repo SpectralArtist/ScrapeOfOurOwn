@@ -19,7 +19,7 @@ class Webscraper:
         else:
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), folder_path)
 
-        self.name = name
+        self.name = name.replace("/", "")
         
     def scrape(self, link):
         DELAY = 5

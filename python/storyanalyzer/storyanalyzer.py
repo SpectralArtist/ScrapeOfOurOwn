@@ -1,6 +1,7 @@
 import json
 import os
-from python import webscraper
+import csv
+from webscraper import webscraper
 from collections import Counter
 from references import strings as sref
 from webscraper import webscraper
@@ -15,8 +16,7 @@ class StoryAnalyzer(webscraper.Webscraper):
         self._calc_gen_stats()
         
     def _calc_gen_stats(self):
-        file = open(self.get_datafile_path(), 'r')
-        data = json.load(file)
+        data = json.load(open(self.get_datafile_path(), 'r'))
 
         self.sum_stories = 0
         self.sum_chapters = 0
@@ -35,7 +35,7 @@ class StoryAnalyzer(webscraper.Webscraper):
             self.sum_comments += story[sref.COMMENTS_SECTION]
             self.tags_counter.update(story[sref.TAGS_SECTION])
 
-    def write_gen_stats_file(self):
+    def write_gen_stats_readable(self):
         with open(self.get_gen_stats_file_path(), 'w') as outfile:
 
             outfile.write("Number of Stories: " + str(self.sum_stories) + "\n")
@@ -60,7 +60,7 @@ class StoryAnalyzer(webscraper.Webscraper):
     def get_gen_stats_file_path(self):
         return os.path.join(self.folder_path, self.name + " General Statistics.txt")
 
-    def write_tag_counts_file(self):
+    def write_tag_counts_readable(self):
         with open(self.get_tag_counts_file_path(), 'w') as outfile:
 
             index = 1
@@ -74,3 +74,78 @@ class StoryAnalyzer(webscraper.Webscraper):
 
     def get_tag_counts_file_path(self):
         return os.path.join(self.folder_path, self.name + " Tag Counts.txt")
+
+    def count_by_chapter(self):
+        data = json.load(open(self.get_datafile_path(), 'r'))
+        counter = {}
+
+        for story in data:
+            chapter = story[sref.CHAPTERS_SECTION]
+            views = story[sref.VIEWS_SECTION]
+            comments = story[sref.COMMENTS_SECTION]
+            likes = story[sref.LIKES_SECTION]
+            words = story[sref.WORDS_SECTION]
+
+            if chapter not in counter:
+                counter[chapter] = {
+                        sref.VIEWS_SECTION: views,
+                        sref.COMMENTS_SECTION: comments,
+                        sref.LIKES_SECTION: likes,
+                        sref.WORDS_SECTION: words,
+                        sref.STORY_COUNT_SECTION: 1
+                }
+            else:
+                counter[chapter][sref.VIEWS_SECTION] += views
+                counter[chapter][sref.COMMENTS_SECTION] += comments
+                counter[chapter][sref.LIKES_SECTION] += likes
+                counter[chapter][sref.WORDS_SECTION] += words
+                counter[chapter][sref.STORY_COUNT_SECTION] += 1     
+        
+        json.dump(counter, open(self.get_by_chapter_datafile_path(), 'w'))
+
+    def get_by_chapter_datafile_path(self):
+        return os.path.join(self.folder_path, self.name + " By Chapter.json")
+
+    def write_by_chapter_readable(self):
+        if not os.path.exists(self.get_by_chapter_datafile_path()): return
+
+        data = json.load(open(self.get_by_chapter_datafile_path(), 'r'))
+        
+        with open(self.get_by_chapter_file_path(), 'w') as outfile:
+            for chapter, counts in sorted(data.items(), key=lambda x: int(x[0]), reverse=False):
+                stories = counts[sref.STORY_COUNT_SECTION]
+                views = counts[sref.VIEWS_SECTION]
+
+                outfile.write("Number of Chapters: " + chapter
+                            + " Total Stories: " + str(stories)
+                            + " Total Views: " + str(views)
+                            + " Average Views per Story: " + str(views / stories)
+                            + "\n")
+
+    def get_by_chapter_file_path(self):
+        return os.path.join(self.folder_path, self.name + " By Chapter.txt")
+
+    def write_by_chapter_csv(self):
+        if not os.path.exists(self.get_by_chapter_datafile_path()): return
+        data = json.load(open(self.get_by_chapter_datafile_path(), 'r'))
+            
+        with open(self.get_by_chapter_csv_file_path(), 'w') as csv_outfile:
+
+            csv_writer = csv.writer(csv_outfile, delimiter=',')
+            csv_writer.writerow(["Number of Chapters", "Total Stories", "Total Views", "Average Views per Story"])
+
+            for chapter, counts in sorted(data.items(), key=lambda x: int(x[0]), reverse=False):
+                stories = counts[sref.STORY_COUNT_SECTION]
+                views = counts[sref.VIEWS_SECTION]
+
+                csv_writer.writerow([chapter, str(stories), str(views), str(views / stories)])
+
+    def get_by_chapter_csv_file_path(self):
+        return os.path.join(self.folder_path, self.name + " By Chapter.csv")
+
+    def run_all(self):
+        self.write_gen_stats_readable()
+        self.write_tag_counts_readable()
+        self.count_by_chapter()
+        self.write_by_chapter_readable()
+        self.write_by_chapter_csv()
