@@ -2,6 +2,7 @@ import json
 import os
 import csv
 import webscraper
+import folder_setup
 from collections import Counter
 import strings as sref
 
@@ -13,6 +14,20 @@ class StoryAnalyzer(webscraper.Webscraper):
     def scrape(self, link):
         super().scrape(link)
         self._calc_gen_stats()
+
+    def set_stories(self, stories: list[dict], link: str=None):
+        if link:
+            self._set_link(link)
+        else:
+            self.link = link
+
+        with open(self.get_datafile_path(), 'w') as outfile:
+            json.dump(stories, outfile)
+
+        self._calc_gen_stats()
+
+    def get_stories(self):
+        return json.load(open(self.get_datafile_path(), 'r'))
         
     def _calc_gen_stats(self):
         data = json.load(open(self.get_datafile_path(), 'r'))
@@ -202,25 +217,35 @@ class StoryAnalyzer(webscraper.Webscraper):
         self.write_by_chapter_csv()
 
 
-def split_storyanalyzer(analyzer: StoryAnalyzer, section: str, folder_path: str=None):
+def split_storyanalyzer(analyzer: StoryAnalyzer, 
+                        section: str, 
+                        folder_path: str=None) -> list[StoryAnalyzer]:
+    if section not in sref.BY_CHAPTER_SECTIONS: return
+    
+    storyanalyzer_list: list[StoryAnalyzer] = []
+    split_groups: dict[str, list[dict]] = {}
     stories: list[dict] = analyzer.get_stories()
-    split_analyzers: dict[str, list] = {}
-    groups = []
     if not folder_path:
         folder_path = analyzer.folder_path
 
 
     for story in stories:
+        groups = []
         if not isinstance(story[section], list):
-            groups = [story[section]]
+            groups.append(story[section])
         else:
             groups = story[section]
 
         for group in groups:
-            if group in split_analyzers:
-                split_analyzers[group].append(story)
+            if group in split_groups:
+                split_groups[group].append(story)
             else:
-                split_analyzers[group] 
+                split_groups[group] = [story]
 
+    for group_key, story_list in split_groups.items():
+        sub_folder_path = folder_setup.create_sub_folder(folder_path, group_key)
+        temp_analyzer = StoryAnalyzer(group_key, sub_folder_path)
+        temp_analyzer.set_stories(story_list)
+        storyanalyzer_list.append(temp_analyzer)
 
-            
+    return storyanalyzer_list

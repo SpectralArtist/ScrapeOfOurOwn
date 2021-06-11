@@ -26,5 +26,7 @@ def create_folder(folder_path):
             os.mkdir(folder_path)
 
 def create_sub_folder(folder_path, name):
-    if not os.path.exists(folder_path):
-            os.mkdir(os.path.join(folder_path, name))
+    sub_folder = os.path.join(folder_path, name.replace('/', ''))
+    if not os.path.exists(sub_folder):
+        os.mkdir(sub_folder)
+    return sub_folder

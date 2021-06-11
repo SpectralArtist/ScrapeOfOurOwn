@@ -20,18 +20,6 @@ class Webscraper:
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), folder_path)
 
         self.name = name.replace("/", "")
-
-    def set_stories(self, stories: list[dict], link: str=None):
-        if link:
-            self._set_link(link)
-        else:
-            self.link = link
-
-        with open(self.get_datafile_path(), 'w') as outfile:
-            json.dump(stories)
-
-    def get_stories(self):
-        return json.load(open(self.get_datafile_path(), 'r'))
         
     def scrape(self, link):
         DELAY = 5
