@@ -200,3 +200,27 @@ class StoryAnalyzer(webscraper.Webscraper):
         self.count_by_chapter()
         self.write_by_chapter_readable()
         self.write_by_chapter_csv()
+
+
+def split_storyanalyzer(analyzer: StoryAnalyzer, section: str, folder_path: str=None):
+    stories: list[dict] = analyzer.get_stories()
+    split_analyzers: dict[str, list] = {}
+    groups = []
+    if not folder_path:
+        folder_path = analyzer.folder_path
+
+
+    for story in stories:
+        if not isinstance(story[section], list):
+            groups = [story[section]]
+        else:
+            groups = story[section]
+
+        for group in groups:
+            if group in split_analyzers:
+                split_analyzers[group].append(story)
+            else:
+                split_analyzers[group] 
+
+
+            
