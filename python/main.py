@@ -16,7 +16,9 @@ all_stories = storyanalyzer.StoryAnalyzer("All Stories", query_folder)
 all_stories.scrape(link)
 all_stories.run_all()
 
-section_analyzers = storyanalyzer.split_storyanalyzer(all_stories, sref.WARNINGS_SECTION)
+for section in sref.BY_CHAPTER_SECTIONS:
+    folder_path = folder_setup.create_sub_folder(query_folder, section)
+    section_analyzers = storyanalyzer.split_storyanalyzer(all_stories, section, folder_path)
 
-for analyzer in section_analyzers:
-    analyzer.run_all()
+    for analyzer in section_analyzers:
+        analyzer.run_all()
