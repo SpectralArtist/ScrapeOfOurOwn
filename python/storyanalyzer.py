@@ -2,7 +2,6 @@ import json
 import os
 import csv
 import webscraper
-import folder_setup
 from collections import Counter
 import strings as sref
 
@@ -214,36 +213,3 @@ class StoryAnalyzer(webscraper.Webscraper):
         self.count_by_chapter()
         self.write_by_chapter_readable()
         self.write_by_chapter_csv()
-
-
-def split_storyanalyzer(analyzer: StoryAnalyzer, 
-                        section: str, 
-                        folder_path: str=None) -> list[StoryAnalyzer]:
-    if section not in sref.BY_CHAPTER_SECTIONS: return
-    
-    storyanalyzer_list: list[StoryAnalyzer] = []
-    split_groups: dict[str, list[dict]] = {}
-    stories: list[dict] = analyzer.get_stories()
-    if not folder_path:
-        folder_path = analyzer.folder_path
-
-    for story in stories:
-        groups = []
-        if not isinstance(story[section], list):
-            groups.append(story[section])
-        else:
-            groups = story[section]
-
-        for group in groups:
-            if group in split_groups:
-                split_groups[group].append(story)
-            else:
-                split_groups[group] = [story]
-
-    for group_key, story_list in split_groups.items():
-        sub_folder_path = folder_setup.create_sub_folder(folder_path, group_key)
-        temp_analyzer = StoryAnalyzer(group_key, sub_folder_path)
-        temp_analyzer.set_stories(story_list)
-        storyanalyzer_list.append(temp_analyzer)
-
-    return storyanalyzer_list
