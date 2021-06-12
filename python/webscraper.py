@@ -11,7 +11,6 @@ from story_constructor import story_to_dict
 class Webscraper:
     
     def __init__(self, name, folder_path):
-        #Class Constant
         self.PAGE_NUMBER_INDICATOR = "page="
 
         if self._folder_exists(folder_path):

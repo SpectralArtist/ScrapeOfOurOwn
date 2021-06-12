@@ -135,7 +135,6 @@ class StoryAnalyzer(webscraper.Webscraper):
                 else:
                     csv_writer.writerow([tag, str(total)])
 
-
     def get_tag_counts_csv_file_path(self):
         return os.path.join(self.folder_path, self.name + " Tag Counts.csv")
 
@@ -227,7 +226,6 @@ def split_storyanalyzer(analyzer: StoryAnalyzer,
     stories: list[dict] = analyzer.get_stories()
     if not folder_path:
         folder_path = analyzer.folder_path
-
 
     for story in stories:
         groups = []
