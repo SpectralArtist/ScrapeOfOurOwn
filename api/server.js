@@ -15,7 +15,7 @@ app.use(express.urlencoded({
 app.use(express.json());
 
 const db = require("./app/models");
-db.sequelize.sync();
+// db.sequelize.sync();
 // db.sequelize.sync({force: true});
 
 app.get("/", (req, res) => {

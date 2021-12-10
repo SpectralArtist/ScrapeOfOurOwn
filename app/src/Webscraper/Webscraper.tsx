@@ -50,10 +50,10 @@ function WebscraperComponent() {
         },
         {
             title: 'Scrape',
-            dataIndex: 'id',
-            key: 'id',
-            render: (id: number) => {
-                return <DeleteOutlined onClick={() => forceScrape(id)}/>
+            dataIndex: 'name',
+            key: 'name',
+            render: (name: string) => {
+                return <DeleteOutlined onClick={() => forceScrape(name)}/>
             }
         }
     ];
@@ -94,8 +94,8 @@ function WebscraperComponent() {
         });
     }
 
-    function forceScrape(id: number) {
-        ScrapeSetDataService.forceScrape(id)
+    function forceScrape(name: string) {
+        ScrapeSetDataService.forceScrape(name)
         .then(data => {
             
         })

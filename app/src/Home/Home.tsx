@@ -40,7 +40,7 @@ function HomeComponent() {
                     <Card>
                         <Title level={2}>Current Functionality</Title>
                         <p style={{margin: 0}}>
-                            
+                            The application has multiple components that are geared toward various aspects of AO3 data.
                         </p>
                     </Card>
                 </Col>

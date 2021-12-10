@@ -9,8 +9,8 @@ const Story = db.stories;
 const Op = db.Sequelize.Op;
 
 exports.forceScrape = async (req, res) => {
-    const webscraperId = req.body.webscraperId
-    const webscraper = await Webscraper.findOne({where: { id: webscraperId }});
+    const webscraperId = req.body.name
+    const webscraper = await Webscraper.findOne({where: { name: webscraperId }});
     const link = webscraper.dataValues.link;
 
     const config = {
@@ -24,7 +24,7 @@ exports.forceScrape = async (req, res) => {
     const stories = [];
 
     const scraper = new Scraper(config);
-    const root = new Root({ pagination: { queryString: 'page', begin: 1, end: 10 } });
+    const root = new Root({ pagination: { queryString: 'page', begin: 1, end: 3 } });
 
     const work = new CollectContent('ol.work', { name: 'work', contentType: 'html', getElementContent: (content, address) => {
         const $ = cheerio.load(content);
@@ -54,7 +54,7 @@ exports.forceScrape = async (req, res) => {
         console.log(authorMap);
         console.log(authorId);
 
-        if (author === null) {
+        if (author === null && authorId != null) {
             console.log(authorMap.get(`${authorId}`));
             await Author.create({id: authorId, name: authorMap.get(`${authorId}`)}, {
                 fields: [

@@ -109,10 +109,6 @@ function DashboardComponent() {
                     </Card>
                 </Col>
                 <Col span={6}>
-                <Card>
-                        <Title level={3}>Avg. Stories Per Story</Title>
-                        <Title level={5}>{storyTotals.totalStories}</Title>
-                    </Card>
                     <Card>
                         <Title level={3}>Avg. Chapters Per Story</Title>
                         <Title level={5}>{storyTotals.averageChapters}</Title>

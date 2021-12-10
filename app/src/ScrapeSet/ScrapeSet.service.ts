@@ -1,7 +1,7 @@
 import http from '../http-common';
 
 export default class ScrapeSetDataService {
-    public static forceScrape(webscraperId: number) {
-        return http.post(`/scrapesets`, {webscraperId});
+    public static forceScrape(name: string) {
+        return http.post(`/scrapesets`, {name});
     }
 }
