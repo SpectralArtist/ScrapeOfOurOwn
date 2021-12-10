@@ -9,8 +9,9 @@ const Story = db.stories;
 const Op = db.Sequelize.Op;
 
 exports.forceScrape = async (req, res) => {
-    const webscraperId = req.body.name
-    const webscraper = await Webscraper.findOne({where: { name: webscraperId }});
+    const webscraperId = req.body.id;
+    console.log(req.body);
+    const webscraper = await Webscraper.findOne({where: { id: webscraperId }});
     const link = webscraper.dataValues.link;
 
     const config = {

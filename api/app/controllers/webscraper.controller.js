@@ -33,9 +33,9 @@ exports.create = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-    const name = req.params.name;
+    const id = parseInt(req.params.id);
     Webscraper.destroy({
-        where: { name: name }
+        where: { id: id }
     })
     .then(data => {
         res.status(200).send("Deleted.");

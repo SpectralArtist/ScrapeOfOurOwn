@@ -1,8 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const Webscraper = sequelize.define("webscraper", {
         name: {
-            type: Sequelize.STRING,
-            primaryKey: true
+            type: Sequelize.STRING
         },
         link: {
             type: Sequelize.STRING

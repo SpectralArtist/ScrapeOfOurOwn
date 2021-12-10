@@ -7,7 +7,8 @@ CREATE DATABASE scrapeofourown;
 USE scrapeofourown;
 
 CREATE TABLE webscrapers (
-    `name` VARCHAR(255) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255),
     link text NOT NULL,
     public BOOLEAN DEFAULT false,
     createdAt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -20,10 +21,10 @@ VALUES ('Original Works', 'https://archiveofourown.org/tags/Original%20Work/work
 
 CREATE TABLE scrapesets (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    webscraperId VARCHAR(255),
+    webscraperId INT NULL,
     createdAt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (webscraperId) REFERENCES webscrapers(name)
+    FOREIGN KEY (webscraperId) REFERENCES webscrapers(id) ON DELETE SET NULL
 );
 
 CREATE TABLE authors (

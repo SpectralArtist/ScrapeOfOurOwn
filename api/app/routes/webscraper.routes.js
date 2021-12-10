@@ -6,7 +6,7 @@ module.exports = app => {
 
     router.post('/', webscrapers.create);
 
-    router.delete('/:name', webscrapers.delete);
+    router.delete('/:id', webscrapers.delete);
 
     app.use('/api/webscrapers', router);
 }

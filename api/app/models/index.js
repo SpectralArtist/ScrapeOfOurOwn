@@ -25,7 +25,7 @@ db.webscrapers = require("./webscraper.model")(sequelize, Sequelize);
 db.scrapesets = require("./scrapeset.model")(sequelize, Sequelize);
 db.tags = require("./tag.model")(sequelize, Sequelize);
 
-db.webscrapers.hasMany(db.scrapesets);
+db.webscrapers.hasMany(db.scrapesets, { foreignKey: 'webscraperId'});
 db.scrapesets.belongsTo(db.webscrapers);
 
 db.scrapesets.hasMany(db.stories, { foreignKey: 'scrapesetId'});
