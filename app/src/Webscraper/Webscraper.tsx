@@ -42,18 +42,18 @@ function WebscraperComponent() {
         },
         {
             title: 'Delete',
-            dataIndex: 'name',
-            key: 'name',
-            render: (name: string) => {
-                return <DeleteOutlined onClick={() => deleteWebscraper(name)}/>
+            dataIndex: 'id',
+            key: 'id',
+            render: (id: number) => {
+                return <DeleteOutlined onClick={() => deleteWebscraper(id)}/>
             }
         },
         {
             title: 'Scrape',
-            dataIndex: 'name',
-            key: 'name',
-            render: (name: string) => {
-                return <DeleteOutlined onClick={() => forceScrape(name)}/>
+            dataIndex: 'id',
+            key: 'id',
+            render: (id: number) => {
+                return <DeleteOutlined onClick={() => forceScrape(id)}/>
             }
         }
     ];
@@ -84,7 +84,7 @@ function WebscraperComponent() {
         });
     }
 
-    function deleteWebscraper(id: string) {
+    function deleteWebscraper(id: number) {
         WebscraperDataService.delete(id)
         .then(data => {
             updateWebscrapers();
@@ -94,8 +94,8 @@ function WebscraperComponent() {
         });
     }
 
-    function forceScrape(name: string) {
-        ScrapeSetDataService.forceScrape(name)
+    function forceScrape(id: number) {
+        ScrapeSetDataService.forceScrape(id)
         .then(data => {
             
         })

@@ -5,15 +5,15 @@ export default class WebscraperDataService {
         return http.get(`/webscrapers`);
     }
 
-    public static get(name: string) {
-        return http.get(`/webscrapers/${name}`);
+    public static get(id: number) {
+        return http.get(`/webscrapers/${id}`);
     }
 
     public static create(data: object) {
         return http.post(`/webscrapers`, data);
     }
 
-    public static delete(name: string) {
-        return http.delete<any>(`/webscrapers/${name}`);
+    public static delete(id: number) {
+        return http.delete<any>(`/webscrapers/${id}`);
     }
 }
